@@ -19,7 +19,7 @@ priorityQueue:: ~priorityQueue()
     delete [] ptr;
 }
 
-void priorityQueue::Insert(int num)
+void priorityQueue::Insert(int num)   //上虑操作
 {
     int i;
     if(IsFull())
@@ -45,7 +45,7 @@ void priorityQueue :: Pop()
         cout<<"The priorityQueue is empty!"<<endl;
     }
     lastData = ptr[Size -- ];
-    for(i = 1; i*2<=Size; i = child)
+    for(i = 1; i*2<=Size; i = child)　　　　　　　//下虑操作
     {
         child = i * 2;
         if(child !=  Size && (flag? (ptr[child] < ptr[child+1]) : (ptr[child] > ptr[child+1])) )
