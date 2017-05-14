@@ -1,89 +1,63 @@
 #ifndef PRIORITYQUEUE_H_INCLUDED
 #define PRIORITYQUEUE_H_INCLUDED
+#include <vector>
 using std:: cout;
+using std:: vector;
 template <class T>
 class priorityQueue
 {
 private:
-    T *ptr;
-    int Size;
-    int queLim;
-    int flag;
-	enum {maxn = 10000};
+    vector<T> ptr;
+    int comp;
 public:
-    priorityQueue(int nums, int mark = 0);   //mark为0时为小顶堆,1时为大顶堆
-    ~priorityQueue();
+    priorityQueue(int mark = 0);   //mark为0时为小顶堆,1时为大顶堆
+    ~priorityQueue() {}
     void Pop();
-    bool IsFull(){ return Size == queLim; };
-    bool Empty() {return Size == 0; };
-    void Insert(const T & element);
-    T Front();
+	size_t Size() { return ptr.size(); }
+    bool Empty() {return ptr.size() == 0; }
+    void Push(const T & element);
+    T Front() { return ptr.front(); }
 };
 
 template <class T>
-priorityQueue<T>:: priorityQueue(int nums, int mark)
+priorityQueue<T>:: priorityQueue(int mark)
 {
-	flag = mark;
-	ptr = new T[nums+1];
-	Size = 0;
-	queLim = nums;
+	comp = mark;
 }
 
 template <class T>
-void priorityQueue<T>:: Insert(const T & element)
+void priorityQueue<T>:: Push(const T & element)
 {
-	int i;
-	if(IsFull())
-		cout << "The PirorityQueue is full.\n";
+	size_t  i;
+	ptr.push_back(element);
+	if(Empty())
+		ptr.push_back(element);
 	else
-	{
-		if(Size == 0)
-			i = ++ Size;
-		else
-		for(i = ++Size;i/2!=0 && (flag ? (ptr[i/2] < element) : !(ptr[i/2] < element)); i >>= 1)
-			ptr[i] = ptr[i/2];
+		for(i = ptr.size(); i/2 && (comp ? (ptr[i/2-1] < element) : !(ptr[i/2-1] < element)); i >>= 1)
+			ptr[i-1] = ptr[i/2-1];
 
-		ptr[i] = element;
-	}
+	ptr[i-1] = element;
 }
 
 template <class T>
 void priorityQueue<T>:: Pop()
 {
-	int i, child;
+	size_t i, child;
 	T lastData;
-	if(Empty())
-	{
-		cout << "The priorityQueue is empty.\n";
-	}
-	lastData = ptr[Size --];
-	for(i = 1; i*2<=Size; i = child)
+	lastData = ptr.back();
+	ptr.pop_back();
+	for(i = 1; i*2<=ptr.size(); i = child)
 	{
 		child = i * 2;
-		if(child != Size && (flag ? (ptr[child] < ptr[child+1]) : !(ptr[child] < ptr[child+1])))
+		if(child != ptr.size() && (comp ? (ptr[child-1] < ptr[child]) : !(ptr[child-1] < ptr[child])))
 			child ++;
 
-		if(flag ? (lastData < ptr[child]) : !(lastData < ptr[child]))
-			ptr[i] = ptr[child];
+		if(comp ? (lastData < ptr[child-1]) : !(lastData < ptr[child-1]))
+			ptr[i-1] = ptr[child-1];
 		else break;
 	}
-	ptr[i] = lastData;
+	ptr[i-1] = lastData;
 }
 
-template<class T>
-T priorityQueue<T>:: Front()
-{
-	if(Empty())
-		cout << "The priorityQueue is empty.\n";
-	else
-	{
-		return ptr[1];
-	}
-}
 
-template<class T>
-priorityQueue<T>:: ~priorityQueue()
-{
-	delete [] ptr;
-}
 #endif // PRIORITYQUEUE_H_INCLUDED

@@ -20,10 +20,10 @@ struct node
 int main()
 {
    node nums[5] = {node("asd", 1), node("dasdasd", 2), node("iiii", -1), node("zzzz", 1), node("asd", 8)};
-   	priorityQueue<node> que(10, 1);
+   	priorityQueue<node> que(true);
     for(int i = 0; i<5; i++)
     {
-        que.Insert(nums[i]);
+        que.Push(nums[i]);
     }
     while(!que.Empty())
     {
