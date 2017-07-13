@@ -131,7 +131,7 @@ void recv_ping(int sockfd, struct sockaddr_in *addr)
 				tv_sub(&tvrecv, tvsend);
 				time = tvrecv.tv_sec * 1000 + tvrecv.tv_usec / 1000;
 				++ nrecv;
-				printf("Reply %d bytes from %s, time = %d ms, TTL = %d, icmp_seq = %d\n", packsize, ipaddr, time,ttl, nsend);
+				printf("Reply %d bytes from %s, time = %d ms, TTL = %d, icmp_seq = %d\n", packsize, ipaddr, time, ttl, icmp->icmp_seq);
 				break;
 			}
 			else continue;
