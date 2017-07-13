@@ -6,10 +6,22 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/time.h>
+#include <netdb.h>
 #include "ping.h"
 
 int packsize, nsend = 0, nrecv = 0;
 
+char *host_to_ip(const char *hostname)
+{
+	struct hostent *host;
+	if((host = gethostbyname(hostname)) == NULL){
+		printf("Unkown hostname.\n");
+		exit(0);
+	}
+
+	return inet_ntoa(*(struct in_addr *)host->h_addr_list[0]);
+
+}
 uint16_t check_sum(uint16_t *icmp_head, int len)
 {
 	uint32_t sum = 0;
