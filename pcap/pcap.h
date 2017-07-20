@@ -94,5 +94,5 @@ void num2protocol(int num);
 
 void my_ntoa(uint32_t ipaddr, char *str_ip);
 
-uint16_t check_sum(uint16_t *ptr, size_t len);
+uint16_t check_sum(uint16_t *ptr, size_t len, uint32_t old);
 #endif

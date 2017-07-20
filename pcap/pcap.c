@@ -31,11 +31,12 @@ void my_ntoa(uint32_t ipaddr, char *str_ip)
 	strcat(str_ip, tmp);
 	getbyte >>= 8;	
 }
-uint16_t check_sum(uint16_t *ptr, size_t len)
+uint16_t check_sum(uint16_t *ptr, size_t len, uint32_t old)
 {
 	uint32_t sum = 0;
 	uint16_t answer = 0;
 	uint16_t *tmpptr = ptr;
+	sum += old;
 	while(len >= 1)
 	{
 		sum += *tmpptr;
@@ -83,8 +84,9 @@ void print_ip_header(struct ip_header_t *ip_header)
 	printf("IP ttl : %u\n", ip_header->ttl);
 	printf("IP protocol : "), num2protocol(ip_header->protocol);
 	printf("IP checksum : 0x%04x\n", htons(ip_header->check_sum));
-	my_ntoa(htonl(ip_header->src_ip), str_ip);	
-	printf("IP src ip : %s\n", str_ip);
+  memset(str_ip, 0, sizeof(str_ip));
+	my_ntoa(htonl(ip_header->src_ip), str_ip);
+  printf("IP src ip : %s\n", str_ip);
 	memset(str_ip, 0, sizeof(str_ip));
 	my_ntoa(htonl(ip_header->dst_ip), str_ip);
 	printf("IP dst ip : %s\n\n", str_ip);
